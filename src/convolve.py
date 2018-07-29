@@ -7,14 +7,17 @@ import sys
 
 def convolve(kernel, img):
     output = np.empty_like(img)
-    img_padding = np.zeros((img.shape[0] + 2, img.shape[1] + 2))
 
-    # Places original image on top of the padding
-    img_padding[1:-1, 1:-1] = img
+    img = np.pad(img, ((0, 0), (0, 0)), mode='edge')
 
-    for i in range(img.shape[0]):
-        for j in range(img.shape[1]):
-            output[i, j] = (kernel * img_padding[i:i+3, j:j+3]).sum()
+    for i in range(img.shape[0] - 2):
+        for j in range(img.shape[1] - 2):
+            
+            #A lot is happening here:
+            # performs element-wise multilplication w/ a submatrix of the original image and the kernel
+            # takes the sum of the resulting matrix
+            # performs ReLU on it in the form or min(max(x,0),255) to constrain the range to [0, 255]
+            output[i, j] = min(max((kernel * img[i:i+3, j:j+3]).sum(), 0), 255)
     return output
 
 
