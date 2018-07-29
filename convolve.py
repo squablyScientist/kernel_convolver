@@ -1,6 +1,5 @@
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
 from skimage import io, color
+from skimage.viewer import ImageViewer
 import numpy as np
 import sys
 
@@ -31,17 +30,9 @@ sobelx = [[-1, -2, -1],
           [1, 2, 1]]
 
 img = io.imread(sys.argv[1])
-fig = plt.figure()
-fig.add_subplot(1, 2, 1)
-plt.imshow(img)
-
-# Turn the image grayscale
 img = color.rgb2gray(img)
 
-fig.add_subplot(1, 2, 2)
 convoluted = convolve(sobelx, img)
+ImageViewer(convoluted).show()
 
-plt.imshow(convoluted, cmap='gray')
 
-mpimg.imsave(sys.argv[2], convoluted, cmap='gray')
-plt.show()
