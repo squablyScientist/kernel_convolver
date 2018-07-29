@@ -18,15 +18,17 @@ def convolve(kernel, img):
             #A lot is happening here:
             # performs element-wise multilplication w/ a submatrix of the original image and the kernel
             # takes the sum of the resulting matrix
-            # performs ReLU on it in the form or min(max(x,0),255) to constrain the range to [0, 255]
-            output[i, j] = min(max((kernel * img[i:i+3, j:j+3]).sum(), 0), 255)
+            output[i, j] = (kernel * img[i:i+3, j:j+3]).sum()
     return output
 
 
-kernel = [[-1, -2, -1],
+sobely = [[-1, 0, 1],
+          [-2, 0, 2,],
+          [-1, 0, 1]]
+
+sobelx = [[-1, -2, -1],
           [0, 0, 0,],
           [1, 2, 1]]
-
 
 img = io.imread(sys.argv[1])
 fig = plt.figure()
@@ -37,7 +39,7 @@ plt.imshow(img)
 img = color.rgb2gray(img)
 
 fig.add_subplot(1, 2, 2)
-convoluted = convolve(kernel, img)
+convoluted = convolve(sobelx, img)
 
 plt.imshow(convoluted, cmap='gray')
 
