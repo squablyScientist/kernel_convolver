@@ -35,8 +35,9 @@ plt.imshow(img)
 img = color.rgb2gray(img)
 
 fig.add_subplot(1, 2, 2)
-convolved_img = convolve(kernel, img)
-plt.imshow(convolved_img)
+convoluted = convolve(kernel, img)
 
-mpimg.imsave(sys.argv[2], convolved_img, cmap='gray')
+plt.imshow(convoluted, cmap='gray')
+
+mpimg.imsave(sys.argv[2], convoluted, cmap='gray')
 plt.show()
